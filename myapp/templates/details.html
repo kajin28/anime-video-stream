@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ anime.name }} - Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <a href="{% url 'anime_list' %}" class="btn btn-secondary mb-3">← Back to Anime List</a>
+
+        <div class="card mb-4">
+            <!-- Clickable Image -->
+            <a href="{% url 'anime_detail' anime.pk %}">
+                <img src="{{ anime.image.url }}" class="card-img-top" style="height: 400px; object-fit: cover;" alt="{{ anime.name }}">
+            </a>
+
+            <div class="card-body">
+                <!-- Name -->
+                <h3 class="card-title">{{ anime.name }}</h3>
+
+                <!-- New Fields -->
+                <p class="card-text"><strong>🗓️ Year:</strong> {{ anime.year }}</p>
+                <p class="card-text"><strong>⏱️ Duration:</strong> {{ anime.hours }} hours</p>
+                <p class="card-text"><strong>🌐 Language:</strong> {{ anime.language }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

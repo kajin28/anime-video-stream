@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Anime List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Anime List</h1>
+    <div class="row">
+        {% for anime in animes %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <a href="{% url 'anime_detail' anime.id %}">
+                    <img src="{{ anime.image.url }}" class="card-img-top" alt="{{ anime.name }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ anime.name }}</h5>
+                    <p class="card-text">Price per episode: ₹{{ anime.episode_price }}</p>
+                    {% if anime.details %}
+                        <p class="card-text">Year: {{ anime.details.year }}</p>
+                        <p class="card-text">Language: {{ anime.details.language }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

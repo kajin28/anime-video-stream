@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscribe Plans</title>
+    <style>
+        /* === Global Page Setup === */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgb(5, 7, 46);
+            color: #ffffff;
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 50px;
+        }
+
+        /* === Container for Plans === */
+        .plans {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* === Individual Plan Card === */
+        .plan {
+            background: linear-gradient(180deg, #1a1e35 0%, #10142a 100%);
+            border-radius: 16px;
+            padding: 30px 20px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .plan:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.25);
+        }
+
+        .plan h2 {
+            color: #ffc107;
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+
+        .plan p {
+            margin: 8px 0;
+            font-size: 15px;
+            color: #dcdcdc;
+            line-height: 1.5;
+        }
+
+        .plan strong {
+            color: #00e676;
+        }
+
+        /* === Price Styling === */
+        .price {
+            font-size: 22px;
+            font-weight: bold;
+            color: #00ff99;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* === Subscribe Button === */
+        .subscribe-btn {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: darkorange;
+            font-size: 120%;
+            border: none;
+            padding: 12px 30px;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .subscribe-btn:hover {
+            background-color: orange;
+            transform: scale(1.05);
+        }
+
+        /* === Responsive Design === */
+        @media (max-width: 768px) {
+            .plan {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .plan {
+                width: 45%;
+            }
+        }
+        /* === Modern Back Button === */
+.back-btn {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(90deg, #5555ff, #8888ff);
+    font-size: 1.1rem;
+    border: none;
+    padding: 12px 30px;
+    color: #fff;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 6px 15px rgba(85, 85, 255, 0.4);
+}
+
+.back-btn:hover {
+    background: linear-gradient(90deg, #8888ff, #5555ff);
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(85, 85, 255, 0.6);
+}
+
+    </style>
+</head>
+<body>
+    <h1>Choose Your Plan</h1>
+
+    <div class="plans">
+        {% for plan in plans %}
+            <div class="plan">
+                <h2>{{ plan.plan_name }}</h2>
+                <p><strong>Devices:</strong> {{ plan.devices }}</p>
+                <p><strong>Resolution:</strong> {{ plan.resolution }}</p>
+                <p><strong>Sound:</strong> {{ plan.sound_quality }}</p>
+                <p><strong>Ads:</strong> {% if plan.has_ads %}With Ads{% else %}No Ads{% endif %}</p>
+                <p><strong>Duration:</strong> {{ plan.duration_months }} Months</p>
+                <p class="price">₹{{ plan.price }} <small>(₹{{ plan.price_per_month }}/month)</small></p>
+                {% if plan.features %}
+                    <p><strong>Features:</strong> {{ plan.features }}</p>
+                {% endif %}
+                <button class="subscribe-btn" onclick="window.location.href='{% url 'payment' plan.id %}'">Subscribe</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Back Button -->
+<div style="text-align: center; margin-top: 40px;">
+    <!-- Back Button -->
+<div style="text-align: center; margin-top: 40px;">
+    <button class="back-btn" onclick="window.history.back();">
+        ← Back
+    </button>
+</div>
+
+</div>
+
+</body>
+</html>

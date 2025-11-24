@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payment Successful</title>
+
+  <!-- ✅ Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- ✅ Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* 🌈 Animated Gradient Background */
+    body {
+      background: linear-gradient(-45deg, #0d102e, #111648, #151b63, #0a0d2e);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+      font-family: "Poppins", sans-serif;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* 💳 Success Box (Glassmorphism) */
+    .success-box {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px 50px;
+      box-shadow: 0 0 25px rgba(0, 255, 135, 0.15);
+      animation: fadeInUp 1.3s ease;
+      max-width: 480px;
+      width: 90%;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ✅ Success Icon Animation */
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 4px solid #00e676;
+      position: relative;
+      margin-bottom: 20px;
+      animation: popIn 0.8s ease forwards;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      80% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .checkmark::after {
+      content: "";
+      position: absolute;
+      left: 22px;
+      top: 10px;
+      width: 20px;
+      height: 40px;
+      border-right: 4px solid #00e676;
+      border-bottom: 4px solid #00e676;
+      transform: rotate(45deg);
+      animation: drawCheck 0.8s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    @keyframes drawCheck {
+      from {
+        opacity: 0;
+        transform: scale(0.8) rotate(45deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(45deg);
+      }
+    }
+
+    /* 🏷️ Text Styling */
+    .success-box h2 {
+      color: #00e676;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .success-box p {
+      color: #ccc;
+      font-size: 1rem;
+      margin: 8px 0;
+    }
+
+    .success-box strong {
+      color: #ffeb3b;
+    }
+
+    /* 🔘 Back Button */
+    .back-home-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 30px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0d102e;
+      background: linear-gradient(90deg, #00e676, #66ffa6);
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 230, 118, 0.3);
+    }
+
+    .back-home-btn:hover {
+      background: linear-gradient(90deg, #66ffa6, #00e676);
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 230, 118, 0.5);
+    }
+
+    /* ✨ Floating Glow Effect */
+    .glow {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(0, 230, 118, 0.1);
+      animation: floatGlow 10s infinite ease-in-out alternate;
+      z-index: 0;
+    }
+
+    .glow.one {
+      top: 10%;
+      left: 10%;
+    }
+    .glow.two {
+      bottom: 15%;
+      right: 10%;
+      animation-delay: 3s;
+    }
+
+    @keyframes floatGlow {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 0.6;
+      }
+      to {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0.8;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <div class="success-box">
+    <div class="checkmark"></div>
+    <h2>Payment Successful!</h2>
+    <p>Thank you, {{ payment.customer_name }}.</p>
+    <p>Your <strong>{{ payment.plan.plan_name }}</strong> plan has been activated.</p>
+    <p>Paid via: <strong>{{ payment.get_payment_method_display }}</strong></p>
+    <p>Amount: ₹{{ payment.amount }}</p>
+    <a href="/" class="back-home-btn">Back to Home</a>
+  </div>
+
+  <!-- ✅ Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

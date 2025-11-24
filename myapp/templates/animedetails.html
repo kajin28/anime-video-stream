@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ anime.name }} | Details</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font for Modern Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        /* 🌌 Background Gradient Animation */
+        body {
+            background: linear-gradient(-45deg, #0d0f2c, #111648, #182154, #0c0f3d);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 🧊 Glassmorphism Anime Card */
+        .anime-card {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            overflow: hidden;
+            padding: 30px;
+        }
+
+        .anime-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(255, 165, 0, 0.2);
+        }
+
+        /* Anime Image */
+        .anime-img {
+            border-radius: 15px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            transition: transform 0.4s;
+        }
+
+        .anime-img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Text Styling */
+        .anime-details h2 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #ffb347;
+            letter-spacing: 0.5px;
+        }
+
+        .anime-details p, .anime-details h4 {
+            font-size: 16px;
+            color: #d4d4d4;
+        }
+
+        .anime-details strong {
+            color: #ffc107;
+        }
+
+        /* Episodes Section */
+        .episode-list h4 {
+            color: #ffcc66;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .list-group-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .list-group-item:hover {
+            background-color: rgba(255, 165, 0, 0.15);
+            transform: scale(1.02);
+        }
+
+        .no-episodes {
+            font-style: italic;
+            color: #aaa;
+        }
+
+        /* Subscribe Button */
+        .subscribe-btn {
+            background: linear-gradient(90deg, darkorange, #ffcc33);
+            border: none;
+            color: #000;
+            font-weight: 600;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.4);
+        }
+
+        .subscribe-btn:hover {
+            background: linear-gradient(90deg, #ffcc33, darkorange);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 165, 0, 0.6);
+        }
+
+        /* Responsive Tweaks */
+        @media (max-width: 992px) {
+            .anime-card {
+                text-align: center;
+            }
+
+            .anime-details {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <!-- Anime Card -->
+    <div class="row anime-card align-items-center">
+        <!-- Left: Image -->
+        <div class="col-lg-5 col-md-12 text-center mb-4 mb-lg-0">
+            <img src="{{ anime.image.url }}" alt="{{ anime.name }}" class="anime-img">
+        </div>
+
+        <!-- Right: Details -->
+        <div class="col-lg-7 col-md-12 anime-details">
+            <h2>{{ anime.name }}</h2>
+
+            <p><strong>Seasons:</strong><br>{{ anime.season_list }}</p>
+            <p><strong>Episode Price:</strong><br>₹{{ anime.episode_price }}</p>
+
+            {% if anime.details %}
+                <p><strong>Language:</strong><br>{{ anime.details.language }}</p>
+                <p><strong>Year:</strong><br>{{ anime.details.year }}</p>
+                <p><strong>Total Hours:</strong><br>{{ anime.details.hours }}</p>
+            {% endif %}
+
+            <!-- Episodes -->
+            <div class="episode-list mt-4">
+                <h4>Episodes</h4>
+                {% if episodes %}
+                    <ul class="list-group">
+                        {% for episode in episodes %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><b>{{ episode.title }}</b></span>
+                                <span>{{ episode.duration }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="no-episodes">No episodes available.</p>
+                {% endif %}
+            </div>
+
+            <!-- Subscribe Button -->
+            <button 
+                class="subscribe-btn"
+                onclick="window.location.href='{% url 'subscribe' %}'">
+                Subscribe
+            </button>
+
+            <div class="text-center mt-4">
+    <button class="subscribe-btn" 
+            style="background: linear-gradient(90deg, #5555ff, #8888ff);" 
+            onclick="window.history.back();">
+        ← Back
+    </button>
+</div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

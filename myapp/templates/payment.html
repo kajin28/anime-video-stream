@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment | {{ plan.plan_name }}</title>
+
+  <!-- ✅ Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- ✅ Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* 🌌 Animated Gradient Background */
+    body {
+      background: linear-gradient(-45deg, #0c0f3d, #10144f, #151b63, #0a0d2e);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 💳 Payment Card - Glassmorphism */
+    .payment-card {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255, 165, 0, 0.15);
+      animation: fadeInUp 1.2s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .payment-card h2 {
+      color: #ffb347;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .payment-card p {
+      color: #f3eeee;
+      margin-bottom: 25px;
+    }
+
+    /* Form Inputs */
+    .form-control, .form-select {
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 15px;
+      background-color: rgba(174, 31, 31, 0.1);
+      color: #fff; /* input text color */
+    }
+
+    /* Placeholder text color */
+    ::placeholder { color: #fff; opacity: 1; }
+    :-moz-placeholder { color: #fff; opacity: 1; }
+    ::-moz-placeholder { color: #fff; opacity: 1; }
+    :-ms-input-placeholder { color: #fff; }
+
+    .form-control:focus, .form-select:focus {
+      box-shadow: 0 0 10px rgba(255, 165, 0, 0.7);
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    /* Logos */
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    .logo-container img {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background: #fff;
+      padding: 6px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 165, 0, 0.6);
+    }
+
+    /* Pay Button */
+    .pay-btn {
+      background: linear-gradient(90deg, darkorange, #ffc94d);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 12px 30px;
+      border-radius: 12px;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+    }
+
+    .pay-btn:hover {
+      background: linear-gradient(90deg, #ffc94d, darkorange);
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 165, 0, 0.5);
+    }
+    /* === Modern Back Button === */
+.back-btn {
+    font-family: 'Poppins', sans-serif;
+    background: rgba(255, 255, 255, 0.08); /* glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    color: #ffc94d;
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding: 12px 30px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+    margin-top: 30px;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 165, 0, 0.6);
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="payment-card">
+    <h2>Payment for {{ plan.plan_name }}</h2>
+    <p>Amount: ₹{{ plan.price }}</p>
+
+    <form method="POST" action="{% url 'payment_confirm' %}">
+      {% csrf_token %}
+      <input type="hidden" name="plan_id" value="{{ plan.id }}">
+
+      <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+      <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+      
+      <select name="method" class="form-select" required>
+        
+        <option value="gpay" style="color:#000">Google Pay</option>
+        <option value="phonepe" style="color:#000">PhonePe</option>
+        <option value="paytm" style="color:#000">Paytm</option>
+        <option value="card" style="color:#000">Credit/Debit Card</option>
+      </select>
+
+      <div class="logo-container">
+        <img src="{% static 'images/gpay.jpg' %}" alt="GPay" onclick="selectMethod('gpay')">
+        <img src="{% static 'images/paytm.jpg' %}" alt="Paytm" onclick="selectMethod('paytm')">
+        <img src="{% static 'images/phonepe.jpg' %}" alt="PhonePe" onclick="selectMethod('phonepe')">
+      </div>
+
+      <button type="submit" class="pay-btn mt-3">Pay Now</button>
+    </form>
+  </div>
+
+  <!-- ✅ Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ✅ JS to select payment method when clicking logo -->
+  <script>
+    function selectMethod(method) {
+      document.querySelector('select[name="method"]').value = method;
+    }
+  </script>
+
+
+
+
+</body>
+</html>
