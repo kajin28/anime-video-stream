@@ -153,6 +153,21 @@
             <p><strong>Seasons:</strong><br>{{ anime.season_list }}</p>
             <p><strong>Episode Price:</strong><br>₹{{ anime.episode_price }}</p>
 
+            <!-- Extra Anime Images -->
+<h4 class="mt-4" style="color: #ffcc66;">Gallery</h4>
+
+<div class="row">
+    {% for img in images %}
+        <div class="col-md-4 mb-3">
+            <img src="{{ img.image.url }}" class="img-fluid rounded" 
+                 style="box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
+        </div>
+    {% empty %}
+        <p>No additional images available.</p>
+    {% endfor %}
+</div>
+
+
             {% if anime.details %}
                 <p><strong>Language:</strong><br>{{ anime.details.language }}</p>
                 <p><strong>Year:</strong><br>{{ anime.details.year }}</p>
